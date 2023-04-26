@@ -12,20 +12,27 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String string;
     private boolean done = false;
 
+    public Note(String note) {
+        this.string = note;
+    }
+
+    public Note() {
+
+    }
 
     public Long getId() {
         return id;
     }
 
     public String getName() {
-        return name;
+        return string;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setString(String note) {
+        this.string = note;
     }
 
     public boolean isDone() {
