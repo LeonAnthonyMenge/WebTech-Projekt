@@ -26,4 +26,12 @@ public class NoteService {
             for (Note note : iterator)  notes.add(note);
             return notes;
         }
+
+        public void deleteById(Long id){
+            try {
+                repo.deleteById(id);
+            }catch (Exception e){
+                throw new RuntimeException("deletion failed:    " + e);
+            }
+        }
 }
