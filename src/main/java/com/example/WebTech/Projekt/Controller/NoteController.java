@@ -32,5 +32,12 @@ public class NoteController {
         public List<Note> getAllNotes() {
             return service.getAll();
         }
+        @DeleteMapping("/note/{id}")
+        public String deleteNoteById(@PathVariable("id") Long id){
+            service.deleteById(id);
+            System.out.println("delete by id");
+            return "Delete by id";
+        }
 
     }
+
