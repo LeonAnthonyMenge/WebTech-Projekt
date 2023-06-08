@@ -34,4 +34,15 @@ public class NoteService {
                 throw new RuntimeException("deletion failed:    " + e);
             }
         }
+
+        public List<Note> getAllFromPage(Long pageId) {
+        Iterable<Note> iterator = repo.findAll();
+            List<Note> notes = new ArrayList<Note>();
+        for (Note note : iterator) {
+            if (note.getPage().getId() == pageId) {
+                notes.add(note);
+            }
+        }
+        return notes;
+    }
 }

@@ -1,27 +1,41 @@
 package com.example.WebTech.Projekt.Note;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.WebTech.Projekt.Page.Page;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
+@Table(name = "Note")
 public class Note {
     // Aus Github von Prof Wider und abgeändert zu Note Klasse
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "string")
     private String string;
+    @Column(name = "done")
     private boolean done = false;
 
-    public Note(String note) {
+    @ManyToOne
+    //@MapsId("pageId")
+    @JoinColumn(name = "page_id", nullable = false)
+    private Page page;
+
+    public Note(String note, Page page) {
         this.string = note;
+        this.page = page;
     }
 
     public Note() {
 
     }
+
+    public Page getPage() {return page;}
+    public void setPage(Page page) {this.page = page;}
 
     public Long getId() {
         return id;
@@ -42,4 +56,5 @@ public class Note {
     public void setDone(boolean done) {
         this.done = done;
     }
+
 }
