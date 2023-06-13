@@ -18,6 +18,7 @@ dependencies {
 // Aus Vorlesungsfolie ergänzt
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	runtimeOnly 'com.h2database:h2:2.1.214'
+	testImplementation 'com.h2database:h2:2.1.214'
 }
 
 tasks.named('test') {

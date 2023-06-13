@@ -22,7 +22,7 @@ public class NoteController {
 
 
         Logger logger = LoggerFactory.getLogger(NoteController.class);
-    
+
         @PostMapping("/page/note/{pageId}")
         public Note createNote(@RequestBody NoteRequest noteRequest, @PathVariable("pageId") String pageId) {
             Long pageIdValue = Long.parseLong(pageId);
@@ -49,8 +49,8 @@ public class NoteController {
         public List<Note> getAllNotes() {
             return service.getAll();
         }
-        @DeleteMapping("/note/{id}")
-        public String deleteNoteById(@PathVariable("id") Long id){
+        @DeleteMapping("/note")
+        public String deleteNoteById(@RequestBody Long id){
             service.deleteById(id);
             System.out.println("delete by id");
             return "Delete by id";
