@@ -1,6 +1,7 @@
 package com.example.WebTech.Projekt.Page;
 
 import com.example.WebTech.Projekt.Note.Note;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class Page {
 
     }
 
-
+    @JsonManagedReference
     public List<Note> getNotes() { return notes; }
 
     public Long getId() {

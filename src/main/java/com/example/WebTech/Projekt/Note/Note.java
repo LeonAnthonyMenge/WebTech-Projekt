@@ -2,6 +2,7 @@ package com.example.WebTech.Projekt.Note;
 
 
 import com.example.WebTech.Projekt.Page.Page;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
@@ -20,7 +21,7 @@ public class Note {
     @Column(name = "done")
     private boolean done = false;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     //@MapsId("pageId")
     @JoinColumn(name = "page_id", nullable = false)
     private Page page;
@@ -33,7 +34,7 @@ public class Note {
     public Note() {
 
     }
-
+    @JsonBackReference
     public Page getPage() {return page;}
     public void setPage(Page page) {this.page = page;}
 

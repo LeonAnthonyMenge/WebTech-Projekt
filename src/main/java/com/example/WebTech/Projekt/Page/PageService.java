@@ -24,7 +24,7 @@ public class PageService {
         Iterable<Page> iterator = repo.findAll();
         List<Page> pages = new ArrayList<>();
         for (Page page : iterator)  pages.add(page);
-        return (List<Page>) repo.findAll();
+        return pages;
     }
 
     public void deleteById(Long id){
