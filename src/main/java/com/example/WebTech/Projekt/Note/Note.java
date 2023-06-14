@@ -58,4 +58,7 @@ public class Note {
         this.done = done;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
 }
