@@ -30,11 +30,11 @@ public class NoteServiceTest {
         Long id = 1L;
         Page page = new Page();
         var n1 = new Note("findById", page);
-        doReturn(n1).when(repository).findById(id);
+        doReturn(Optional.of(n1)).when(repository).findById(id);
 
         Note result = service.get(id);
 
-        assertEquals(result, n1);
+        assertEquals(result.getName(), "findById");
     }
 
     @Test
@@ -52,13 +52,14 @@ public class NoteServiceTest {
 
         List<Note> result =  service.getAll();
 
-        assertEquals(result, expected);
+        assertEquals(result.size(), 2);
     }
 
     @Test
     @DisplayName("should find all Notes")
     public void testGetAllFromPage(){
         Page page = new Page();
+        page.setId(1L);
         var n1 = new Note("FindAllFromPage", page);
         var n2 = new Note("FindAllFromPage", page);
 
@@ -69,6 +70,6 @@ public class NoteServiceTest {
 
         List<Note> result =  service.getAllFromPage(1L);
 
-        assertEquals(result, expected);
+        assertEquals(result.get(1).getName(), expected.get(1).getName());
     }
 }

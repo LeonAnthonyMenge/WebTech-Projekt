@@ -14,10 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @WebMvcTest(PageController.class)
 public class PageControllerTest {
@@ -27,24 +25,20 @@ public class PageControllerTest {
     private PageService service;
 
     @Test
-    @DisplayName("Tests Route of Page")
-    public void testGetRoute(){
-        //Test Daten und Service Mock
+    @DisplayName("should return page by id")
+    public void testGetRoute() throws Exception {
+        // Testdaten und Service Mock
         Page p1 = new Page("testGetRoute");
         p1.setId(42L);
         when(service.get(42L)).thenReturn(p1);
 
-        //Erwartetes Ergebnis
-        String expected = "{\"id\":42,\"name\":\"testGetRoute\",\"notes\":\"[]\"}";
+        // Erwartetes Ergebnis
+        String expected = "{\"id\":42,\"name\":\"testGetRoute\"}";
 
-        //Aufruf und Vergleich
-        try {
-            this.mockMvc.perform(get("/page/42"))
-                    .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(content().string(containsString(expected)));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        // Aufruf und Vergleich
+        mockMvc.perform(get("/page/42"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(expected));
     }
 }

@@ -12,6 +12,14 @@ repositories {
 	mavenCentral()
 }
 
+sourceSets {
+	test {
+		resources {
+			srcDirs 'src/test/java/resources'
+		}
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

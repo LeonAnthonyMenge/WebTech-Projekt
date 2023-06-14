@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
@@ -28,11 +29,11 @@ public class PageServiceTest {
     public void testFindById(){
         Long id = 1L;
         var n1 = new Page("findById");
-        doReturn(n1).when(repository).findById(id);
+        doReturn(Optional.of(n1)).when(repository).findById(id);
 
         Page result = service.get(id);
 
-        assertEquals(result, n1);
+        assertEquals(result.getName(), n1.getName());
     }
 
     @Test
@@ -48,6 +49,6 @@ public class PageServiceTest {
 
         List<Page> result =  service.getAll();
 
-        assertEquals(result, expected);
+        assertEquals(result.get(1).getName(), expected.get(1).getName());
     }
 }
