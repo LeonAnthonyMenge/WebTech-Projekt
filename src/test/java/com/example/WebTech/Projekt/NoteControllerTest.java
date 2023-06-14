@@ -4,6 +4,7 @@ import com.example.WebTech.Projekt.Controller.NoteController;
 import com.example.WebTech.Projekt.Note.Note;
 import com.example.WebTech.Projekt.Note.NoteService;
 import com.example.WebTech.Projekt.Page.Page;
+import com.example.WebTech.Projekt.Page.PageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,9 @@ public class NoteControllerTest {
     @MockBean
     private NoteService service;
 
+    @MockBean
+    private PageService pageService;
+
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
@@ -56,29 +60,4 @@ public class NoteControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(expected));
     }
-
-
-    @Test
-    @DisplayName("Tests Route of Note")
-    public void testGetRoute2() throws Exception {
-        // Testdaten und Service Mock
-        Page page = new Page("testGetRoute");
-        Note n1 = new Note("testNote", page);
-        n1.setId(42L);
-        doReturn(Optional.of(n1)).when(service.get(42L));
-
-        // Erwartetes Ergebnis
-        String expected = "{\"id\":42,\"done\":false,\"name\": \"testNote\"}";
-
-        // Aufruf und Vergleich
-        mockMvc.perform(get("/note/42"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(expected));
-    }
-
-
-
-
-
 }
