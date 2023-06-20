@@ -8,6 +8,8 @@ import com.example.WebTech.Projekt.Page.PageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,12 +51,16 @@ public class NoteController {
         public List<Note> getAllNotes() {
             return service.getAll();
         }
-        @DeleteMapping("/note")
-        public String deleteNoteById(@RequestBody Long id){
-            service.deleteById(id);
-            System.out.println("delete by id");
-            return "Delete by id";
-        }
 
+        @DeleteMapping("/deleteById/note/{id}")
+        public ResponseEntity<String> deleteNoteById(@PathVariable("id") Long id) {
+            boolean deleteSuccessful = service.deleteById(id);
+
+            if (deleteSuccessful) {
+                return ResponseEntity.ok("Note with ID " + id + " deleted successfully.");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete note with ID " + id);
+            }
+        }
     }
 

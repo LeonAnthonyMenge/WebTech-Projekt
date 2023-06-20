@@ -18,6 +18,11 @@ sourceSets {
 			srcDirs 'src/test/java/resources'
 		}
 	}
+	main{
+		resources {
+			srcDirs 'src/main/java/resources'
+		}
+	}
 }
 
 dependencies {
@@ -26,7 +31,7 @@ dependencies {
 // Aus Vorlesungsfolie ergänzt
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	runtimeOnly 'com.h2database:h2:2.1.214'
-	testImplementation 'com.h2database:h2:2.1.214'
+	testImplementation 'com.h2database:h2:1.4.200'
 }
 
 tasks.named('test') {

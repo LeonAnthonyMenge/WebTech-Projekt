@@ -27,12 +27,8 @@ public class NoteService {
             return notes;
         }
 
-        public void deleteById(Long id){
-            try {
-                repo.deleteById(id);
-            }catch (Exception e){
-                throw new RuntimeException("deletion failed:    " + e);
-            }
+        public void delete(Note note){
+                repo.delete(note);
         }
 
         public List<Note> getAllFromPage(Long pageId) {
@@ -44,5 +40,15 @@ public class NoteService {
             }
         }
         return notes;
+    }
+
+    public boolean deleteById(Long id) {
+        try {
+            repo.deleteById(id);
+            return true; // Das Löschen war erfolgreich
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; // Fehler beim Löschen der Note
+        }
     }
 }
