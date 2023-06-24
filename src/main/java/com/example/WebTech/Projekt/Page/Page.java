@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static jakarta.persistence.CascadeType.REMOVE;
+
 @Entity
 @Table(name = "PAGE")
 public class Page {
@@ -22,7 +24,7 @@ public class Page {
 
     @OneToMany(
             mappedBy = "page",
-            cascade = CascadeType.ALL,
+            cascade = REMOVE,
             orphanRemoval = true,
             fetch = FetchType.EAGER
     )
@@ -55,8 +57,9 @@ public class Page {
         this.name = name;
     }
 
-    public void setNotes(List<Note> notes) {
-        this.notes = notes;
+    public void deleteNotes(Note note) {
+        this.notes.remove(note);
+        note.setPage(null);
     }
 
     public void addNote(Note note) {

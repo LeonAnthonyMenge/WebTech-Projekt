@@ -1,5 +1,6 @@
 package com.example.WebTech.Projekt.Note;
 
+import com.example.WebTech.Projekt.Page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,8 @@ public class NoteService {
         NoteRepository repo;
 
         public Note save(Note note) {
+            Page page = note.getPage();
+            page.addNote(note);
             return repo.save(note);
         }
 
@@ -42,13 +45,16 @@ public class NoteService {
         return notes;
     }
 
-    public boolean deleteById(Long id) {
+    public boolean deleteById(Long noteId) {
         try {
-            repo.deleteById(id);
+            Note note = get(noteId);
+            Page page = note.getPage();
+            page.deleteNotes(note);
+            repo.delete(note);
             return true; // Das Löschen war erfolgreich
         } catch (Exception e) {
             e.printStackTrace();
-            return false; // Fehler beim Löschen der Note
+            return false; // Fehler beim Löschen der Notiz
         }
     }
 }

@@ -15,10 +15,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+
 import java.util.Optional;
 
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.client.ExpectedCount.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -69,9 +71,11 @@ public class NoteControllerTest {
         Note note = new Note("testDeleteRoute", page);
         note.setId(42L);
 
-        service.save(note);
+        // Mock das Verhalten des NoteService
+        when(service.get(42L)).thenReturn(note);
+        doReturn(true).when(service).deleteById(note.getId());
 
-        // Aufruf und Vergleich
+        // Aufruf und Überprüfung
         mockMvc.perform(delete("/deleteById/note/42"))
                 .andExpect(status().isOk());
     }

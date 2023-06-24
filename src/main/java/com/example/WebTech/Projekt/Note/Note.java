@@ -23,7 +23,7 @@ public class Note {
 
     @ManyToOne(fetch = FetchType.EAGER)
     //@MapsId("pageId")
-    @JoinColumn(name = "page_id", nullable = false)
+    @JoinColumn(name = "page_id")
     private Page page;
 
     public Note(String note, Page page) {
@@ -36,7 +36,9 @@ public class Note {
     }
     @JsonBackReference
     public Page getPage() {return page;}
-    public void setPage(Page page) {this.page = page;}
+    public void setPage(Page page) {
+        this.page = page;
+    }
 
     public Long getId() {
         return id;
