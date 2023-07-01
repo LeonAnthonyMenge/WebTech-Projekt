@@ -20,10 +20,12 @@ public class PageService {
         return repo.findById(id).orElseThrow(() -> new RuntimeException());
     }
 
-    public List<Page> getAll() {
+    public List<Page> getAll(String email) {
         Iterable<Page> iterator = repo.findAll();
         List<Page> pages = new ArrayList<>();
-        for (Page page : iterator)  pages.add(page);
+        for (Page page : iterator){
+            if(page.getUser().equals(email)){ pages.add(page); }
+        }
         return pages;
     }
 

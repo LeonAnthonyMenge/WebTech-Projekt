@@ -49,7 +49,7 @@ public class PageControllerTest {
     @DisplayName("should delete page by id")
     public void testDeleteRoute() throws Exception {
         // Testdaten und Service Mock
-        Page p1 = new Page("testGDeleteRoute");
+        Page p1 = new Page("testGDeleteRoute", "testOwner");
         p1.setId(42L);
 
 

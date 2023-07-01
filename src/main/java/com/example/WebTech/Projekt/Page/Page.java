@@ -22,6 +22,9 @@ public class Page {
     @Column(name = "name")
     private String name;
 
+    @Column(name="ownwer")
+    private String owner;
+
     @OneToMany(
             mappedBy = "page",
             cascade = REMOVE,
@@ -30,6 +33,12 @@ public class Page {
     )
     private List<Note> notes;
 
+    public Page(String name, String owner) {
+        this.name = name;
+        this.owner = owner;
+        this.notes = new ArrayList<>();
+    }
+    //Constructur for Pages without Owners
     public Page(String name) {
         this.name = name;
         this.notes = new ArrayList<>();
@@ -40,6 +49,8 @@ public class Page {
 
     @JsonManagedReference
     public List<Note> getNotes() { return notes; }
+
+    public String getUser(){ return owner; }
 
     public Long getId() {
         return id;
