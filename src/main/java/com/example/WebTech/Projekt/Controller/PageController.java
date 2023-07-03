@@ -36,9 +36,9 @@ public class PageController {
         return service.get(pageId);
     }
 
-    @GetMapping("/page")
-    public List<Page> getAllPages() {
-        return service.getAll();
+    @GetMapping("/page/{ownerId}")
+    public List<Page> getAllPages(@PathVariable("ownerId") Long id) {
+        return service.getAll(id);
     }
     @DeleteMapping("/page/{id}")
     public String deletePageById(@PathVariable("id") String id){

@@ -1,4 +1,4 @@
-package com.example.WebTech.Projekt.Note;
+package com.example.WebTech.Projekt.Request;
 
 public class NoteRequest {
     private String string;
