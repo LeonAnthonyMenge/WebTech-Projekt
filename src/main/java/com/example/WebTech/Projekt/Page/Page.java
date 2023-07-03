@@ -35,8 +35,9 @@ public class Page {
     @ManyToOne(fetch = FetchType.EAGER)
     private User owner;
 
-    public Page(String name) {
+    public Page(String name, User owner) {
         this.name = name;
+        this.owner = owner;
         this.notes = new ArrayList<>();
     }
     public Page() {
