@@ -1,6 +1,7 @@
 package com.example.WebTech.Projekt.Controller;
 
 import com.example.WebTech.Projekt.Request.LoginRequest;
+import com.example.WebTech.Projekt.Request.SignUpRequest;
 import com.example.WebTech.Projekt.User.LoginResponse;
 import com.example.WebTech.Projekt.User.User;
 import com.example.WebTech.Projekt.User.UserService;
@@ -8,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
@@ -22,10 +20,8 @@ public class UserController {
     @PostMapping("/api/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         User user = userService.findByEmail(loginRequest.getEmail());
-        boolean isPasswordValid = user.isPasswordValid(loginRequest.getPassword());
-
-        if (isPasswordValid) {
-            LoginResponse response = new LoginResponse(true, "Login successful");
+        if (user != null && user.isPasswordValid(loginRequest.getPassword())) {
+            LoginResponse response = new LoginResponse(true, "Login successful", user.getId());
             return ResponseEntity.ok(response);
         } else {
             LoginResponse response = new LoginResponse(false, "Invalid credentials");
@@ -33,14 +29,28 @@ public class UserController {
         }
     }
 
-    @PostMapping("/api/registrate")
-    public ResponseEntity<?> signup(@RequestBody User user){
+    @PostMapping("/api/registration")
+    public ResponseEntity<?> signup(@RequestBody SignUpRequest signUpRequest){
         try{
+            User user = new User(signUpRequest.getFirstname(), signUpRequest.getLastname(), signUpRequest.getPassword(), signUpRequest.getEmail());
             userService.save(user);
-            LoginResponse response = new LoginResponse(true, "Registration successful");
+            User newUser = userService.findByEmail(user.getEmail());
+            LoginResponse response = new LoginResponse(true, "Registration successful", newUser.getId());
             return ResponseEntity.ok(response);
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fehler beim Erstellen des Benutzers: " + e.getMessage());
+            LoginResponse response = new LoginResponse(false, "Invalid credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+    }
+
+    @GetMapping("/api/getUser")
+    public ResponseEntity<User> getUser(@RequestParam("email") String email) {
+        String decodedEmail = LoginRequest.decodeBase64(email);
+        User user = userService.findByEmail(decodedEmail);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 
