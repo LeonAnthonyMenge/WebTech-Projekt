@@ -1,7 +1,7 @@
 package com.example.WebTech.Projekt.Controller;
 
 import com.example.WebTech.Projekt.Note.Note;
-import com.example.WebTech.Projekt.Note.NoteRequest;
+import com.example.WebTech.Projekt.Request.NoteRequest;
 import com.example.WebTech.Projekt.Note.NoteService;
 import com.example.WebTech.Projekt.Page.Page;
 import com.example.WebTech.Projekt.Page.PageService;

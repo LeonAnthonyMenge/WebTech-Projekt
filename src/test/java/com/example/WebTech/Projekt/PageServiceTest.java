@@ -4,6 +4,7 @@ import com.example.WebTech.Projekt.Note.Note;
 import com.example.WebTech.Projekt.Page.Page;
 import com.example.WebTech.Projekt.Page.PageRepository;
 import com.example.WebTech.Projekt.Page.PageService;
+import com.example.WebTech.Projekt.User.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,9 @@ public class PageServiceTest {
     @Test
     @DisplayName("should find Page by its id")
     public void testFindById(){
+        User user = new User();
         Long id = 1L;
-        var n1 = new Page("findById");
+        var n1 = new Page("findById", user);
         doReturn(Optional.of(n1)).when(repository).findById(id);
 
         Page result = service.get(id);
@@ -39,15 +41,17 @@ public class PageServiceTest {
     @Test
     @DisplayName("should find all Pages")
     public void testFindAllPages(){
-        var p1 = new Page("findAllPages");
-        var p2 = new Page("findAllPages2");
+        User user = new User();
+        user.setId(1L);
+        var p1 = new Page("findAllPages", user);
+        var p2 = new Page("findAllPages2", user);
 
         List<Page> expected = new ArrayList<>();
         expected.add(p1);
         expected.add(p2);
         doReturn(expected).when(repository).findAll();
 
-        List<Page> result =  service.getAll();
+        List<Page> result =  service.getAll(1L);
 
         assertEquals(result.get(1).getName(), expected.get(1).getName());
     }

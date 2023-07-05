@@ -1,13 +1,13 @@
 package com.example.WebTech.Projekt.Page;
 
 import com.example.WebTech.Projekt.Note.Note;
+import com.example.WebTech.Projekt.User.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static jakarta.persistence.CascadeType.REMOVE;
 
@@ -30,8 +30,12 @@ public class Page {
     )
     private List<Note> notes;
 
-    public Page(String name) {
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User owner;
+
+    public Page(String name, User owner) {
         this.name = name;
+        this.owner = owner;
         this.notes = new ArrayList<>();
     }
     public Page() {
@@ -40,6 +44,14 @@ public class Page {
 
     @JsonManagedReference
     public List<Note> getNotes() { return notes; }
+    @JsonBackReference
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 
     public Long getId() {
         return id;

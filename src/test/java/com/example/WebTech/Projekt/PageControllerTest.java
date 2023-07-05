@@ -3,6 +3,8 @@ package com.example.WebTech.Projekt;
 import com.example.WebTech.Projekt.Controller.PageController;
 import com.example.WebTech.Projekt.Page.Page;
 import com.example.WebTech.Projekt.Page.PageService;
+import com.example.WebTech.Projekt.User.User;
+import com.example.WebTech.Projekt.User.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,12 +29,15 @@ public class PageControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private PageService service;
+    @MockBean
+    private UserService userService;
 
     @Test
     @DisplayName("should return page by id")
     public void testGetRoute() throws Exception {
+        User user = new User();
         // Testdaten und Service Mock
-        Page p1 = new Page("testGetRoute");
+        Page p1 = new Page("testGetRoute", user);
         p1.setId(42L);
         when(service.get(42L)).thenReturn(p1);
 
@@ -48,13 +53,14 @@ public class PageControllerTest {
     @Test
     @DisplayName("should delete page by id")
     public void testDeleteRoute() throws Exception {
+        User user = new User();
         // Testdaten und Service Mock
-        Page p1 = new Page("testGDeleteRoute");
+        Page p1 = new Page("testGDeleteRoute", user);
         p1.setId(42L);
 
 
         // Aufruf und Vergleich
-        mockMvc.perform(delete("/page/42"))
+        mockMvc.perform(delete("/deletepage/42"))
                 .andExpect(status().isOk());
     }
 }
