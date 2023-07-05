@@ -5,6 +5,7 @@ import com.example.WebTech.Projekt.Note.Note;
 import com.example.WebTech.Projekt.Note.NoteService;
 import com.example.WebTech.Projekt.Page.Page;
 import com.example.WebTech.Projekt.Page.PageService;
+import com.example.WebTech.Projekt.User.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,8 +67,9 @@ public class NoteControllerTest {
     @Test
     @DisplayName("should delete note by id")
     public void testDeleteRoute() throws Exception {
+        User user = new User();
         // Testdaten und Service Mock
-        Page page = new Page("Testpage");
+        Page page = new Page("Testpage", user);
         Note note = new Note("testDeleteRoute", page);
         note.setId(42L);
 

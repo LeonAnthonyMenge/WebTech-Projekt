@@ -6,7 +6,7 @@ import java.util.Base64;
 public class SignUpRequest {
 
     String email;
-    String password
+    String password;
     String lastname;
     String firstname;
 

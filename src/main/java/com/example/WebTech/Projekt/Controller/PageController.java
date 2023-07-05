@@ -2,11 +2,12 @@ package com.example.WebTech.Projekt.Controller;
 
 import com.example.WebTech.Projekt.Page.Page;
 import com.example.WebTech.Projekt.Page.PageService;
+import com.example.WebTech.Projekt.Request.NoteRequest;
+import com.example.WebTech.Projekt.User.User;
+import com.example.WebTech.Projekt.User.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,17 +17,17 @@ public class PageController {
 
     @Autowired
     PageService service;
+    @Autowired
+    UserService userService;
 
     Logger logger = LoggerFactory.getLogger(PageController.class);
 
-    @PostMapping("/page")
-    public ResponseEntity<?> createPage(@RequestBody Page page) {
-        try {
-            Page createdPage = service.save(page);
-            return ResponseEntity.ok(createdPage);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fehler beim Erstellen der Seite: " + e.getMessage());
-        }
+    @PostMapping("/create-page/{ownerId}")
+    public Page createPage(@RequestBody NoteRequest noteRequest, @PathVariable String ownerId) {
+            User user = userService.getUser(Long.valueOf(ownerId));
+            Page newPage = new Page(noteRequest.getString(), user);
+            return service.save(newPage);
+
     }
 
     @GetMapping("/page/{id}")
@@ -36,11 +37,11 @@ public class PageController {
         return service.get(pageId);
     }
 
-    @GetMapping("/page/{ownerId}")
+    @GetMapping("/pagebyowner/{ownerId}")
     public List<Page> getAllPages(@PathVariable("ownerId") Long id) {
         return service.getAll(id);
     }
-    @DeleteMapping("/page/{id}")
+    @DeleteMapping("/deletepage/{id}")
     public String deletePageById(@PathVariable("id") String id){
         service.deleteById(Long.valueOf(id));
         System.out.println("delete by id");

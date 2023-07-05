@@ -14,7 +14,7 @@ public class PageService {
 
     @Autowired
     PageRepository repo;
-
+    @Autowired
     UserRepository userRepository;
 
     public Page save(Page page) {
@@ -29,8 +29,10 @@ public class PageService {
         Iterable<Page> iterator = repo.findAll();
         List<Page> pages = new ArrayList<>();
         for (Page page : iterator)
-            if(page.getOwner().getId() == id){
-                pages.add(page);
+            if(page.getOwner() != null){
+                if(page.getOwner().getId() == id){
+                    pages.add(page);
+                }
             }
         return pages;
     }
